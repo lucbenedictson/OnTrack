@@ -8,17 +8,31 @@
 
 /* Begin PBXBuildFile section */
 		B5ED71DB2C3F3E8200815A69 /* OnTrackApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ED71DA2C3F3E8200815A69 /* OnTrackApp.swift */; };
-		B5ED71DD2C3F3E8200815A69 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ED71DC2C3F3E8200815A69 /* ContentView.swift */; };
+		B5ED71DD2C3F3E8200815A69 /* CategoryTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ED71DC2C3F3E8200815A69 /* CategoryTabView.swift */; };
 		B5ED71DF2C3F3E8300815A69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5ED71DE2C3F3E8300815A69 /* Assets.xcassets */; };
 		B5ED71E22C3F3E8300815A69 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5ED71E12C3F3E8300815A69 /* Preview Assets.xcassets */; };
+		B5ED71E92C3F578000815A69 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ED71E82C3F578000815A69 /* Task.swift */; };
+		B5ED71EB2C403F7600815A69 /* TaskStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ED71EA2C403F7600815A69 /* TaskStore.swift */; };
+		B5FAF74F2C4FF9230039FD7C /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FAF74E2C4FF9230039FD7C /* TaskView.swift */; };
+		B5FAF7532C4FF97A0039FD7C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FAF7522C4FF97A0039FD7C /* Extensions.swift */; };
+		B5FAF7552C513D0E0039FD7C /* ListNavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FAF7542C513D0E0039FD7C /* ListNavView.swift */; };
+		B5FAF7572C513E5B0039FD7C /* AnimatedCapsuleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FAF7562C513E5B0039FD7C /* AnimatedCapsuleButton.swift */; };
+		B5FAF7592C51400C0039FD7C /* AnimatedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FAF7582C51400C0039FD7C /* AnimatedButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B5ED71D72C3F3E8200815A69 /* OnTrack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTrack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5ED71DA2C3F3E8200815A69 /* OnTrackApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnTrackApp.swift; sourceTree = "<group>"; };
-		B5ED71DC2C3F3E8200815A69 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B5ED71DC2C3F3E8200815A69 /* CategoryTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTabView.swift; sourceTree = "<group>"; };
 		B5ED71DE2C3F3E8300815A69 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B5ED71E12C3F3E8300815A69 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B5ED71E82C3F578000815A69 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		B5ED71EA2C403F7600815A69 /* TaskStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStore.swift; sourceTree = "<group>"; };
+		B5FAF74E2C4FF9230039FD7C /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
+		B5FAF7522C4FF97A0039FD7C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		B5FAF7542C513D0E0039FD7C /* ListNavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListNavView.swift; sourceTree = "<group>"; };
+		B5FAF7562C513E5B0039FD7C /* AnimatedCapsuleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedCapsuleButton.swift; sourceTree = "<group>"; };
+		B5FAF7582C51400C0039FD7C /* AnimatedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,8 +65,15 @@
 		B5ED71D92C3F3E8200815A69 /* OnTrack */ = {
 			isa = PBXGroup;
 			children = (
+				B5FAF7542C513D0E0039FD7C /* ListNavView.swift */,
 				B5ED71DA2C3F3E8200815A69 /* OnTrackApp.swift */,
-				B5ED71DC2C3F3E8200815A69 /* ContentView.swift */,
+				B5ED71DC2C3F3E8200815A69 /* CategoryTabView.swift */,
+				B5FAF7582C51400C0039FD7C /* AnimatedButton.swift */,
+				B5FAF7562C513E5B0039FD7C /* AnimatedCapsuleButton.swift */,
+				B5FAF7522C4FF97A0039FD7C /* Extensions.swift */,
+				B5FAF74E2C4FF9230039FD7C /* TaskView.swift */,
+				B5ED71E82C3F578000815A69 /* Task.swift */,
+				B5ED71EA2C403F7600815A69 /* TaskStore.swift */,
 				B5ED71DE2C3F3E8300815A69 /* Assets.xcassets */,
 				B5ED71E02C3F3E8300815A69 /* Preview Content */,
 			);
@@ -95,7 +116,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					B5ED71D62C3F3E8200815A69 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -137,8 +158,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5ED71DD2C3F3E8200815A69 /* ContentView.swift in Sources */,
+				B5ED71E92C3F578000815A69 /* Task.swift in Sources */,
+				B5FAF7532C4FF97A0039FD7C /* Extensions.swift in Sources */,
+				B5FAF7572C513E5B0039FD7C /* AnimatedCapsuleButton.swift in Sources */,
+				B5ED71DD2C3F3E8200815A69 /* CategoryTabView.swift in Sources */,
+				B5FAF7592C51400C0039FD7C /* AnimatedButton.swift in Sources */,
 				B5ED71DB2C3F3E8200815A69 /* OnTrackApp.swift in Sources */,
+				B5FAF7552C513D0E0039FD7C /* ListNavView.swift in Sources */,
+				B5FAF74F2C4FF9230039FD7C /* TaskView.swift in Sources */,
+				B5ED71EB2C403F7600815A69 /* TaskStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,6 +209,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -241,6 +270,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -275,6 +305,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -304,6 +335,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
