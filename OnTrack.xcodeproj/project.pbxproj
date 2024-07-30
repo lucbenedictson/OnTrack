@@ -18,6 +18,9 @@
 		B5FAF7552C513D0E0039FD7C /* ListNavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FAF7542C513D0E0039FD7C /* ListNavView.swift */; };
 		B5FAF7572C513E5B0039FD7C /* AnimatedCapsuleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FAF7562C513E5B0039FD7C /* AnimatedCapsuleButton.swift */; };
 		B5FAF7592C51400C0039FD7C /* AnimatedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FAF7582C51400C0039FD7C /* AnimatedButton.swift */; };
+		B5FAF75B2C51C7750039FD7C /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FAF75A2C51C7750039FD7C /* CalendarView.swift */; };
+		B5FAF75D2C51C7BA0039FD7C /* TaskEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FAF75C2C51C7BA0039FD7C /* TaskEditorView.swift */; };
+		B5FAF75F2C51C7F30039FD7C /* TaskInputData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FAF75E2C51C7F30039FD7C /* TaskInputData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +36,9 @@
 		B5FAF7542C513D0E0039FD7C /* ListNavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListNavView.swift; sourceTree = "<group>"; };
 		B5FAF7562C513E5B0039FD7C /* AnimatedCapsuleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedCapsuleButton.swift; sourceTree = "<group>"; };
 		B5FAF7582C51400C0039FD7C /* AnimatedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedButton.swift; sourceTree = "<group>"; };
+		B5FAF75A2C51C7750039FD7C /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		B5FAF75C2C51C7BA0039FD7C /* TaskEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditorView.swift; sourceTree = "<group>"; };
+		B5FAF75E2C51C7F30039FD7C /* TaskInputData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskInputData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,9 +71,12 @@
 		B5ED71D92C3F3E8200815A69 /* OnTrack */ = {
 			isa = PBXGroup;
 			children = (
+				B5FAF75A2C51C7750039FD7C /* CalendarView.swift */,
 				B5FAF7542C513D0E0039FD7C /* ListNavView.swift */,
 				B5ED71DA2C3F3E8200815A69 /* OnTrackApp.swift */,
 				B5ED71DC2C3F3E8200815A69 /* CategoryTabView.swift */,
+				B5FAF75E2C51C7F30039FD7C /* TaskInputData.swift */,
+				B5FAF75C2C51C7BA0039FD7C /* TaskEditorView.swift */,
 				B5FAF7582C51400C0039FD7C /* AnimatedButton.swift */,
 				B5FAF7562C513E5B0039FD7C /* AnimatedCapsuleButton.swift */,
 				B5FAF7522C4FF97A0039FD7C /* Extensions.swift */,
@@ -158,7 +167,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5FAF75D2C51C7BA0039FD7C /* TaskEditorView.swift in Sources */,
+				B5FAF75B2C51C7750039FD7C /* CalendarView.swift in Sources */,
 				B5ED71E92C3F578000815A69 /* Task.swift in Sources */,
+				B5FAF75F2C51C7F30039FD7C /* TaskInputData.swift in Sources */,
 				B5FAF7532C4FF97A0039FD7C /* Extensions.swift in Sources */,
 				B5FAF7572C513E5B0039FD7C /* AnimatedCapsuleButton.swift in Sources */,
 				B5ED71DD2C3F3E8200815A69 /* CategoryTabView.swift in Sources */,

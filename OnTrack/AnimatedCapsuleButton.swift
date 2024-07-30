@@ -36,6 +36,32 @@ struct AnimatedCapsuleButton: View {
     }
 }
 
+struct CapsuleButton: View {
+    var title: String? = nil
+    var systemImage: String? = nil
+    var role: ButtonRole?
+    let action: () -> Void
+    
+    init(_ title: String? = nil,
+         systemImage: String? = nil,
+         role: ButtonRole? = nil,
+         action: @escaping () -> Void
+    ) {
+        self.title = title
+        self.systemImage = systemImage
+        self.role = role
+        self.action = action
+    }
+    
+    var body: some View {
+        Button(role: role) {
+                action()
+        } label: {
+            CapsuleTextView(title: title, systemImage: systemImage)
+        }
+    }
+}
+
 struct CapsuleTextView: View {
     var title: String? = nil
     var systemImage: String? = nil

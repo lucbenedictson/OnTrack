@@ -28,7 +28,6 @@ struct AnimatedButton: View {
         Button(role: role) {
             withAnimation {
                 action()
-                    
             }
         } label: {
             if let title, let systemImage {

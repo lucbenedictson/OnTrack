@@ -8,26 +8,39 @@
 import SwiftUI
 
 struct TaskView: View {
-    var description: String
+    @Binding var description: String
+    @Binding var complete: Bool
+    @Binding var timeComponent: Task.TimeComponent
     
     var body: some View {
         HStack(alignment: .center) {
+            
             Text(description)
                 .font(.body).fontWeight(.regular)
             
             Spacer()
             
-            VStack {
-                Image(systemName: "clock")
-                Text("time")
+            if(timeComponent.includeTime) {
+                VStack {
+                    Image(systemName: "clock")
+                    Text(timeComponent.due.HM)
+                }
+                .font(.caption2).fontWeight(.regular)
+                .foregroundStyle(.secondary)
             }
-            .font(.caption2).fontWeight(.regular)
-            .foregroundStyle(.secondary)
         }
-        .checkify()
+        .checkify(complete: $complete)
     }
 }
 
 #Preview {
-    TaskView(description: "HI")
+    @State var desc = "hi"
+    @State var comp = false
+    @State var comp2 = true
+    @State var time = Task.TimeComponent(due: .now)
+    
+    return VStack {
+        TaskView(description: $desc, complete: $comp, timeComponent: $time)
+        TaskView(description: $desc, complete: $comp2, timeComponent: $time)
+    }
 }
