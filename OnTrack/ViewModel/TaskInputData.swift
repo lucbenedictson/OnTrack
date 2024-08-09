@@ -9,9 +9,8 @@ import Foundation
 
 struct TaskInputData {
     var text: String = ""
-    var category: Category = .productivity
-    var dateComponent: Task.TimeComponent
-    var includeTime: Bool = false
+    var category: Category
+    var dateComponent: TimeComponent
     var priority: Priority = .none
 }
 

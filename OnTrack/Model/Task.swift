@@ -7,8 +7,12 @@
 
 import Foundation
 
-struct Task: Identifiable, Hashable {
-    let id = UUID()
+struct Task: Identifiable, Hashable, Codable, CustomDebugStringConvertible {
+    var debugDescription: String {
+        return "Desciption: \(description), Date: \(date)"
+    }
+    
+    var id = UUID()
     var complete = false
     var description: String
     var date: TimeComponent
@@ -25,23 +29,4 @@ struct Task: Identifiable, Hashable {
         category = taskData.category
         priority = taskData.priority
     }
-    
-    struct TimeComponent: Hashable {
-        var due: Date
-        var includeTime = false
-    }
 }
-
-enum Category: String, CaseIterable {
-    case health = "Health"
-    case productivity = "Productivity"
-    case other = "Other"
-}
-
-enum Priority: String, CaseIterable {
-    case high = "High"
-    case middle = "Middle"
-    case low = "Low"
-    case none = "None"
-}
-
