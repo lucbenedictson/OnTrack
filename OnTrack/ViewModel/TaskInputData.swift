@@ -9,11 +9,7 @@ import Foundation
 
 struct TaskInputData {
     var text: String = ""
-    var category: Category
-    var dateComponent: TimeComponent
-    var priority: Priority = .none
+    var category: Task.Category
+    var dateComponent: Task.TimeComponent
+    var priority: Task.Priority = .none
 }
-
-//#Preview {
-//    TaskInputData()
-//}

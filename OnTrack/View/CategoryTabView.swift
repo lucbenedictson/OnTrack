@@ -8,54 +8,48 @@
 import SwiftUI
 
 struct CategoryTabView: View {
-    @State private var day = Date.now
     @State private var selection = 0
+    @EnvironmentObject private var taskStore: TaskStore
+    @ObservedObject private var userPreferencesStore: UserPreferencesStore
+    
+    init(_ userPreferencesStore: UserPreferencesStore){
+        self.userPreferencesStore = userPreferencesStore
+        switch userPreferencesStore.preferences.category {
+        case nil: self._selection = State(initialValue: 0)
+        case .productivity: self._selection = State(initialValue: 1)
+        case .health: self._selection = State(initialValue: 2)
+        case .other: self._selection = State(initialValue: 3)
+        }
+    }
     
     var body: some View {
-            TabView(selection: $selection) {
-                ListNavView(category: nil, day: $day)
-                    .tabItem {
-                        Image(systemName: "list.bullet")
-                    }
-                    .tag(0)
-                
-                ListNavView(category: .productivity, day: $day)
-                    .tabItem {
-                        Image(systemName: Category.productivity.image)
-                            .environment(\.symbolVariants, .none)
-                    }
-                    .tag(1)
-                
-                ListNavView(category: .health, day: $day)
-                    .tabItem {
-                        Image(systemName: Category.health.image)
-                    }
-                    .tag(2)
-                
-                ListNavView(category: .other, day: $day)
-                    .tabItem {
-                        Image(systemName: Category.other.image)
-                            .environment(\.symbolVariants, .none)
-                    }
-                    .tag(3)
-            }
+        TabView(selection: $selection) {
+            ListNavView(userPreferencesStore, changingPreferencesCategoryTo: nil)
+                .tabItem {
+                    Image(systemName: "list.bullet")
+                }
+                .tag(0)
             
+            ListNavView(userPreferencesStore, changingPreferencesCategoryTo: .productivity)
+                .tabItem {
+                    Image(systemName: Task.Category.productivity.image)
+                        .environment(\.symbolVariants, .none)
+                }
+                .tag(1)
+            
+            ListNavView(userPreferencesStore, changingPreferencesCategoryTo: .health)
+                .tabItem {
+                    Image(systemName: Task.Category.health.image)
+                }
+                .tag(2)
+            
+            ListNavView(userPreferencesStore, changingPreferencesCategoryTo: .other)
+                .tabItem {
+                    Image(systemName: Task.Category.other.image)
+                        .environment(\.symbolVariants, .none)
+                }
+                .tag(3)
+        }
     }
 }
 
-#Preview {
-    CategoryTabView()
-        .environmentObject(TaskStore())
-}
-
-//#Preview {
-//    @State var desc = "hi"
-//    @State var comp = false
-//    @State var comp2 = true
-//    @State var time = Task.TimeComponent(due: .now)
-//    
-//    return VStack {
-//        TaskView(description: $desc, complete: $comp, timeComponent: $time)
-//        TaskView(description: $desc, complete: $comp2, timeComponent: $time)
-//    }
-//}

@@ -8,17 +8,14 @@
 import SwiftUI
 
 struct CalendarView: View {
-    @Binding var dateSelected: TimeComponent
-//    @Binding var isPresented: Bool
-    
-    @State private var initialDateInfo: TimeComponent
+    @Binding private var dateSelected: Task.TimeComponent    
+    private let initialDateInfo: Task.TimeComponent
     
     @Environment(\.dismiss) var dismiss
     
-    init(dateSelection: Binding<TimeComponent>) {//, isPresented: Binding<Bool>) {
+    init(dateSelection: Binding<Task.TimeComponent>) {//, isPresented: Binding<Bool>) {
         self._dateSelected = dateSelection
-//        self._isPresented = isPresented
-        self._initialDateInfo = State(initialValue: dateSelection.wrappedValue)
+        self.initialDateInfo = dateSelection.wrappedValue
     }
     
     var body: some View {
@@ -26,21 +23,19 @@ struct CalendarView: View {
             HStack {
                 AnimatedButton("Cancel") {
                     dateSelected = initialDateInfo
-//                    isPresented = false
                     dismiss()
                 }
                 Spacer()
                 AnimatedButton("Done") {
-//                    isPresented = false
                     dismiss()
                 }
             }
-            .padding([.top,.horizontal])
-            
+            .padding()
             
             DatePicker("Choose Date", selection: $dateSelected.due, displayedComponents: [.date])
                 .datePickerStyle(.graphical)
-                .padding()
+                .padding(.horizontal)
+
             
             
             Form {
@@ -56,15 +51,11 @@ struct CalendarView: View {
                         }
                     }
                 }
-                .listRowBackground(Color.gray.opacity(0.1))
+                .listRowBackground(Color.secondary.opacity(0.1))
             
             }
             .scrollContentBackground(.hidden)
         }
+        .padding(.horizontal)
     }
 }
-
-//#Preview {
-//    CalendarView()
-//}
-

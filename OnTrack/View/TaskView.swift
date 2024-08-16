@@ -15,95 +15,89 @@ struct TaskView: View {
     }
     
     var body: some View {
-        HStack(alignment: .center) {
-            
+        HStack {
             Text(task.description)
-                .font(.body)
-                .fontWeight(.regular)
             
             Spacer()
             
-            if(task.date.includeTime) {
+            if(task.dateComponent.includeTime) {
                 VStack {
                     Image(systemName: "clock")
-                    Text(task.date.due.HM)
+                    Text(task.dateComponent.due.HM)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.01)
                 }
                 .font(.caption2).fontWeight(.regular)
                 .foregroundStyle(.secondary)
             }
         }
-        .checkify(complete: $task.complete, priority: task.priority)
+        .checkify(completionStatus: $task.completionStatus, priority: task.priority)
     }
 }
 
 extension View {
-    func checkify(complete: Binding<Bool>, priority: Priority) -> some View {
-        modifier(Checkify(complete: complete, priority: priority))
+    func checkify(completionStatus: Binding<Task.CompletionStatus>, priority: Task.Priority) -> some View {
+        modifier(Checkify(complete: completionStatus, priority: priority))
     }
 }
 
-struct Checkify: ViewModifier, Animatable {
-    @Binding var complete: Bool
-    @State var maskPosition: Double
-    private let priority: Priority
-
-    init(complete: Binding<Bool>, priority: Priority) {
-        self._complete = complete
-        self._maskPosition = State(initialValue: complete.wrappedValue ? 20 : 0)
-        self.priority = priority
+struct Checkify: ViewModifier {
+    @Binding var completionStatus: Task.CompletionStatus
+    @State var maskPosition: Double = 0.0
+    @State var tapped = false
+    private let priority: Task.Priority
+    
+    private struct Constants {
+        static let checkFrame = CGFloat(25)
+        static let circleFrame = checkFrame - 3
+        static let maskFrame = checkFrame - 8
+        static let checkedMaskOffset = checkFrame
     }
-
-    var animatableData: Double {
-        get { maskPosition }
-        set { maskPosition = newValue}
+    
+    init(complete: Binding<Task.CompletionStatus>, priority: Task.Priority) {
+        self._completionStatus = complete
+        self._maskPosition = State(initialValue: complete.wrappedValue == .complete ? Constants.checkedMaskOffset : 0)
+        self.priority = priority
     }
     
     func body(content: Content) -> some View {
         HStack {
             Image(systemName: "checkmark.circle")
                 .resizable()
-                .frame(width: 25, height: 25)
+                .frame(width: Constants.checkFrame, height: Constants.checkFrame)
                 .foregroundStyle(priority.color)
                 .background(
                     Image(systemName: "circle.fill")
                         .resizable()
-                        .frame(width: 22, height: 22)
+                        .frame(width: Constants.circleFrame, height: Constants.circleFrame)
                         .foregroundStyle(.background)
                 )
-                .symbolEffect(.bounce, value: maskPosition)
                 .overlay(
                     Rectangle()
-                        .frame(width: 12, height: 12)
+                        .frame(width: Constants.maskFrame, height: Constants.maskFrame)
                         .foregroundStyle(.background)
-                        .offset(x: maskPosition)
-                        .clipped()
+                        .offset(x: (completionStatus == .complete || completionStatus == .checking) ? Constants.checkedMaskOffset : 0)
+                        .clipShape(Circle())
                 )
                 .onTapGesture {
-                    withAnimation(.spring) {
-                        toggleMaskPosition()
-                    } completion: {
-                        withAnimation {
-                            complete.toggle()
+                    //Do not allow user to alter status while in the process of checking
+                    if completionStatus == .complete {
+                        withAnimation(.spring) {
+                            completionStatus = .incomplete
+                        }
+                    } else if completionStatus == .incomplete {
+                        withAnimation(.spring) {
+                            completionStatus = .checking
+                        } completion: {
+                            withAnimation(.spring) {
+                                completionStatus = .complete
+                            }
                         }
                     }
                 }
+            
             content
         }
-    }
-    
-    func toggleMaskPosition() {
-        maskPosition < 20.0 ? (maskPosition = 20.0) : (maskPosition = 0.0)
+        .font(nil).fontWeight(nil)
     }
 }
-
-//#Preview {
-//    @State var desc = "hi"
-//    @State var comp = false
-//    @State var comp2 = true
-//    @State var time = Task.TimeComponent(due: .now)
-//    
-//    return VStack {
-//        TaskView(description: $desc, complete: $comp, timeComponent: $time)
-//        TaskView(description: $desc, complete: $comp2, timeComponent: $time)
-//    }
-//}

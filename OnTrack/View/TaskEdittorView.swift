@@ -17,19 +17,16 @@ struct TaskEdittorView: View {
 
     @Environment(\.dismiss) var dismiss
     @State private var taskInput: TaskInputData
-    private let editing: Bool
     private let taskId: Task.ID?
     
     
-    init(selectedDay: Date, initialCategory category: Category?) {
-        self._taskInput = State(initialValue: TaskInputData(category: category ?? .productivity, dateComponent: TimeComponent(due: selectedDay)))
-        self.editing = false
+    init(selectedDay: Date, initialCategory category: Task.Category?) {
+        self._taskInput = State(initialValue: TaskInputData(category: category ?? .productivity, dateComponent: Task.TimeComponent(due: selectedDay)))
         self.taskId = nil
     }
     
     init(editTask: Task) {
         self._taskInput = State(initialValue: editTask.toTaskInputData())
-        self.editing = true
         self.taskId = editTask.id
     }
     
@@ -37,19 +34,24 @@ struct TaskEdittorView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                // FIXME: - for some reason errors go away when there is no text field
-                TextField("whats next", text: $taskInput.text)
-                    .textFieldStyle(.roundedBorder)
+            HStack(alignment: .top){
+                TextField("whats next", text: $taskInput.text, axis: .vertical)
                     .focused($focused, equals: true)
-                    
+                    .onAppear {
+                        focused = true
+                    }
                 
-                AnimatedCapsuleButton(systemImage: editing ? "pencil" : "plus") {
-                    editing ? store.edit(withId: taskId!, taskData: taskInput) : store.add(taskData: taskInput)
+                
+                AnimatedCapsuleButton(systemImage: taskId != nil ? "pencil" : "plus") {
+                    if let id = taskId {
+                        store.edit(withId: id, taskData: taskInput)
+                    } else {
+                        store.add(taskData: taskInput)
+                    }
                     dismiss()
                 }
             }
-            
+            .padding([.horizontal, .top])
             
             HStack {
                 AnimatedCapsuleButton(taskInput.dateComponent.due.formatted(date: .abbreviated, time: taskInput.dateComponent.includeTime ? .shortened : .omitted), systemImage: "calendar") {
@@ -80,49 +82,48 @@ struct TaskEdittorView: View {
                         .presentationCompactAdaptation((.popover))
                 }
             }
+            .padding(.horizontal)
             
             Spacer()
         }
-        .padding()
-        .onAppear {
-            focused = true
-        }
+        .font(nil).fontWeight(nil) //apply default font and font weight to all text
     }
     
-    @State var isDaily = false
     
-    var categoryPopover: some View {
+    private let popoverPadding = CGFloat(5)
+    
+    private var categoryPopover: some View {
         VStack(alignment: .leading) {
-            ForEach(Category.allCases, id: \.self) { category in
-                AnimatedButton(category.rawValue, systemImage: category.image, imageColor: Color.primary, textColor: Color.primary) {
+            ForEach(Task.Category.allCases, id: \.self) { category in
+                AnimatedButton(category.description, systemImage: category.image, imageColor: Color.primary, textColor: Color.primary) {
                     self.taskInput.category = category
                     showCategory = false
                     focused = false
                 }
                 
-                if Category.allCases.last != category {
+                if Task.Category.allCases.last != category {
                     Divider()
                 }
             }
         }
-        .padding(5)
+        .padding(popoverPadding)
     }
     
-    var priorityPopover: some View {
+    private var priorityPopover: some View {
         VStack(alignment: .leading) {
-            ForEach(Priority.allCases, id: \.self) { priority in
-                AnimatedButton(priority.toString(), systemImage: "flag", imageColor: priority.color, textColor: Color.primary) {
+            ForEach(Task.Priority.allCases, id: \.self) { priority in
+                AnimatedButton(priority.description, systemImage: "flag", imageColor: priority.color, textColor: Color.primary) {
                     self.taskInput.priority = priority
                     showPriority = false
                     focused = false
                 }
                 
-                if Priority.allCases.last != priority {
+                if Task.Priority.allCases.last != priority {
                     Divider()
                 }
             }
         }
-        .padding(5)
+        .padding(popoverPadding)
     }
 }
 
@@ -131,11 +132,8 @@ extension Task {
         TaskInputData (
             text: self.description,
             category: self.category,
-            dateComponent: self.date,
+            dateComponent: self.dateComponent,
             priority: self.priority)
     }
 }
 
-//struct TextEdittorButton: View {
-//    
-//}

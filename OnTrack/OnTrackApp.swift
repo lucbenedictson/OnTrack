@@ -10,10 +10,11 @@ import SwiftUI
 @main
 struct OnTrackApp: App {
     @StateObject var taskStore = TaskStore()
+    @StateObject var userPreferencesStore = UserPreferencesStore()
     
     var body: some Scene {
         WindowGroup {
-            CategoryTabView()
+            CategoryTabView(userPreferencesStore)
                     .environmentObject(taskStore)
         }
     }

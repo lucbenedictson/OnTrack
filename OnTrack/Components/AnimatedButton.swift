@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct AnimatedButton: View {
-    var title: String? = nil
-    var systemImage: String? = nil
-    var role: ButtonRole?
+    let title: String?
+    let systemImage: String?
+    let role: ButtonRole?
     let imageColor: Color
     let textColor: Color
     let action: () -> Void
@@ -37,8 +37,6 @@ struct AnimatedButton: View {
             }
         } label: {
             if let title, let systemImage {
-                //Image(systemName: "systemImage").foregroundStyle(imageColor)
-//                Label(title, Image(systemName: "systemImage").foregroundStyle(imageColor))
                 Label {
                     Text(title)
                         .foregroundStyle(textColor)
@@ -56,7 +54,3 @@ struct AnimatedButton: View {
         }
     }
 }
-
-//#Preview {
-//    AnimatedButton()
-//}

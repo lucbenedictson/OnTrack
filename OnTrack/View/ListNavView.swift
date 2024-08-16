@@ -9,19 +9,20 @@ import SwiftUI
 
 struct ListNavView: View {
     @EnvironmentObject var store: TaskStore
-    let category: Category?
     @State var presentTaskSheet = false
     @State var presentTaskEditorSheet = false
-    @State var showComplete = false
-//    @State var sort: TaskStore.SortingOptions = .none
-
-    @Binding var day: Date
+    @ObservedObject var userPreferencesStore: UserPreferencesStore
+    let category: Task.Category?
+    
+    init(_ userPreferencesStore: UserPreferencesStore, changingPreferencesCategoryTo category: Task.Category?) {
+        self.userPreferencesStore = userPreferencesStore
+        self.category = category
+    }
     
     var body: some View {
         GeometryReader { geo in
             NavigationStack {
-//                conditionalContent()
-                TaskListView(category: category, date: day, showComplete: showComplete)
+                TaskListView(userPreferencesStore)
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
                         toolBarContents()
@@ -31,34 +32,17 @@ struct ListNavView: View {
             }
             .overlay(plusButton(in: geo))
         }
+        .onAppear {
+            userPreferencesStore.preferences.category = category //update userPreferences category for current list
+        }
     }
-    
-    @ViewBuilder
-    private func conditionalContent() -> some View {
-//        ZStack { // FIXME: - 1) lets text transition apply when swaping the condition content
-            if store.isEmpty(category, on: day, allowsComplete: showComplete) {
-                Text("all done for the day!")
-            } else {
-//                TaskList()
-                TaskListView(category: category, date: day, showComplete: showComplete)
-            }
-//        }
-    }
-    
-    private func changeDayBy(_ numDays: Int) {
-        let calendar = Calendar.current
-        day = calendar.date(byAdding: .day, value: numDays, to: day)!
-    }
-    
-    @State var showEventsCalendar = false
     
     @ToolbarContentBuilder
     private func toolBarContents() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
             NavigationLink {
-//                WeekAtAGlanceView(baseDate: $day)
-                GeometryReader {geo in
-                    WeekView(currentDate: $day, availableWidth: geo.size.width, category: category, showComplete: showComplete)
+                GeometryReader { geo in
+                    WeekAtAGlanceView(userPreferencesStore, availableWidth: geo.size.width)
                 }
             } label: {
                 Image(systemName: "calendar")
@@ -66,129 +50,71 @@ struct ListNavView: View {
         }
         
         ToolbarItem(placement: .principal) {
-            HStack(spacing: 0) {
+            HStack {
                 AnimatedButton(systemImage: "chevron.left") {
-                    changeDayBy(-1)
+                    decrementDay()
                 }
 
-                Text(day.YMD)
-                    .id(day)
+                Text(userPreferencesStore.preferences.date.YMD)
                     .transition(.identity)
-                    .clipped()
                     .onTapGesture {
-                        day = .now
+                        userPreferencesStore.preferences.date = .now
                     }
                 
                 AnimatedButton(systemImage: "chevron.right") {
-                    changeDayBy(1)
+                    incrementDay()
                 }
             }
         }
         
         ToolbarItem {
             Menu {
-                Toggle(isOn: $showComplete)  {
+                Toggle(isOn: $userPreferencesStore.preferences.showComplete)  {
                     Text("Show Complete")
+                        
                 }
-                
-                Menu {
-                    ForEach(TaskStore.SortingOptions.allCases, id: \.self) { sort in
-                        AnimatedButton(sort.rawValue, systemImage: currentSort == sort ? "checkmark" : nil) {
-                            currentSort = sort
-                            store.sortBy(sort)
-                        }
+                Picker(selection: $userPreferencesStore.preferences.sort){
+                    ForEach(UserPreferences.SortingOptions.allCases, id: \.self) { sort in
+                        Label(sort.rawValue, systemImage: sort.image)
+                            .fixedSize()
                     }
                 } label: {
                     Label("Sort", systemImage: "arrow.up.arrow.down")
+                        .fixedSize()
                 }
+                .pickerStyle(.menu)
             } label: {
                 Image(systemName: "ellipsis")
             }
         }
     }
     
-    @State var currentSort: TaskStore.SortingOptions = .none
+    func incrementDay() {
+        let calendar = Calendar.current
+        userPreferencesStore.preferences.date = calendar.date(byAdding: .day, value: 1, to: userPreferencesStore.preferences.date) ?? Date.now
+    }
+
+    func decrementDay() {
+        let calendar = Calendar.current
+        userPreferencesStore.preferences.date = calendar.date(byAdding: .day, value: -1, to: userPreferencesStore.preferences.date) ?? Date.now
+    }
     
     private func plusButton(in geo: GeometryProxy) -> some View {
-        Button {
+        let size = CGFloat(65)
+        let xPos = geo.size.width - size/2 - 15
+        let yPos = geo.size.height - size/2 - 15
+        
+        return Button {
             presentTaskSheet = true
         } label: {
             Image(systemName: "plus.circle.fill")
                 .resizable()
-                .frame(width: 65, height: 65)
-                .background(.white, in: Circle())
+                .frame(width: size, height: size)
+                .background(.background, in: Circle())
         }
-        .position(x: geo.size.width-50, y: geo.size.height-50)
+        .position(x: xPos, y: yPos)
         .sheet(isPresented: $presentTaskSheet) {
-            TaskEdittorView(selectedDay: day, initialCategory: category)
+            TaskEdittorView(selectedDay: userPreferencesStore.preferences.date, initialCategory: userPreferencesStore.preferences.category)
         }
     }
 }
-
-
-//#Preview {
-//    ListNavView()
-//}
-
-
-
-
-
-
-//struct ListView: View {
-//    var category: Category?
-//    @Binding var showComplete: Bool
-//    @Binding var day: Date
-//    @EnvironmentObject var store: TaskStore
-//    
-//    var body: some View {
-//       conditionalContent()
-//    }
-//    
-//    @ViewBuilder
-//    private func conditionalContent() -> some View {
-//        ZStack { // FIXME: - 1) lets text transition apply when swaping the condition content
-//            if store.isEmpty(category, on: day, allowsComplete: showComplete) {
-//                Image(systemName: "checkmark")
-//            } else {
-//                List {
-//                    listContents()
-//                }
-//                .listSectionSpacing(5)
-//            }
-//        }
-//    }
-//
-//    @ViewBuilder
-//    private func listContents() -> some View {
-//        Section {} header: {
-//            Text("Tasks")
-//                .textCase(nil)
-//                .font(.title).fontWeight(.semibold)
-//                .foregroundStyle(Color.black)
-//        }
-//        
-//        ForEach($store.tasks) { task in
-//                if(store.contains(task.id, from: category, on: day) && task.complete.wrappedValue == showComplete) {
-//                    Section {
-//                        TaskView(description: task.description, complete: task.complete, timeComponent: task.date )
-//                            .listRowBackground(Color.gray.opacity(0.5))
-//                            .swipeActions(edge: .trailing) {
-//                                AnimatedButton(systemImage: "trash", role: .destructive) {
-//                                    store.removeTask(withId: task.id)
-//                                }
-//                                AnimatedButton(systemImage: "pencil") {
-//                                    
-//                                }
-//                                .tint(.orange)
-//                                
-//                                AnimatedButton(systemImage: "arrow.right") {
-//                                    
-//                                }
-//                                .tint(.indigo)
-//                            }
-//                    }
-//                }
-//            }
-//    }
-//}
