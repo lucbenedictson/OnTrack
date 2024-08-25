@@ -50,7 +50,7 @@
 		B5FAF75A2C51C7750039FD7C /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		B5FAF75C2C51C7BA0039FD7C /* TaskEdittorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEdittorView.swift; sourceTree = "<group>"; };
 		B5FAF75E2C51C7F30039FD7C /* TaskInputData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskInputData.swift; sourceTree = "<group>"; };
-		B5FAF7702C62AD550039FD7C /* WeekAtAGlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekAtAGlaceView.swift; sourceTree = SOURCE_ROOT; };
+		B5FAF7702C62AD550039FD7C /* WeekAtAGlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WeekAtAGlaceView.swift; path = OnTrack/View/WeekAtAGlaceView.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
