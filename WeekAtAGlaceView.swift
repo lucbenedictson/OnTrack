@@ -5,7 +5,7 @@
 //  Created by Luc Benedictson on 2024-08-24.
 //
 
-//The correct base date and starting value cannot be calculated, view will lose functionality in the following ways...
+//If the correct base date and starting date cannot be calculated, view will lose functionality in the following ways...
 //1) Wont start on the correct day
 //2) Will not be sunday-saturday labelled as it is not guarenteed dates will properly align
 //3) On a scroll, selected date will not snap to the next or most recent sunday

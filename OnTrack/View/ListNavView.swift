@@ -20,20 +20,25 @@ struct ListNavView: View {
     }
     
     var body: some View {
-        GeometryReader { geo in
-            NavigationStack {
-                TaskListView(userPreferencesStore)
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        toolBarContents()
-                    }
-                    .font(.title2)
-                    .fontWeight(.semibold)
-            }
-            .overlay(plusButton(in: geo))
+        NavigationStack {
+            TaskListView(userPreferencesStore)
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    toolBarContents()
+                }
+                .font(.title2)
+                .fontWeight(.semibold)
         }
+        .overlay(plusButtonOverlay)
+        .ignoresSafeArea(.keyboard)
         .onAppear {
             userPreferencesStore.preferences.category = category //update userPreferences category for current list
+        }
+    }
+    
+    private var plusButtonOverlay: some View {
+        GeometryReader { geo in
+            plusButton(in: geo)
         }
     }
     
@@ -99,6 +104,8 @@ struct ListNavView: View {
         userPreferencesStore.preferences.date = calendar.date(byAdding: .day, value: -1, to: userPreferencesStore.preferences.date) ?? Date.now
     }
     
+    @State var detentHeight: CGFloat = 0
+    
     private func plusButton(in geo: GeometryProxy) -> some View {
         let size = CGFloat(65)
         let xPos = geo.size.width - size/2 - 15
@@ -115,6 +122,14 @@ struct ListNavView: View {
         .position(x: xPos, y: yPos)
         .sheet(isPresented: $presentTaskSheet) {
             TaskEdittorView(selectedDay: userPreferencesStore.preferences.date, initialCategory: userPreferencesStore.preferences.category)
+                .readHeight()
+                .onPreferenceChange(HeightPreferenceKey.self) { height in
+                    if let height {
+                        self.detentHeight = height
+                    }
+                }
+                .presentationDetents([.height(self.detentHeight)])
         }
     }
 }
+

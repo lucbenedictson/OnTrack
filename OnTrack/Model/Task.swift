@@ -15,18 +15,6 @@ struct Task: Identifiable, Hashable, Codable {
     var category: Category
     var priority: Priority
 
-    
-//    mutating func toggleComplete() {
-//        complete.toggle()
-//    }
-//    
-//    mutating func edit(taskData: TaskInputData) {
-//        description = taskData.text
-//        date = taskData.dateComponent
-//        category = taskData.category
-//        priority = taskData.priority
-//    }
-    
     enum CompletionStatus: Codable {
         case incomplete
         case checking
@@ -58,8 +46,8 @@ struct Task: Identifiable, Hashable, Codable {
             self.rawValue
         }
         
-        case health = "Health"
-        case productivity = "Productivity"
+        case health = "Health & Fitness"
+        case productivity = "Career"
         case other = "Other"
         
         

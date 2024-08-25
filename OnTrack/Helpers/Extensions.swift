@@ -17,6 +17,27 @@ extension Task.Category {
     }
 }
 
+extension Task.Priority {
+    var color: Color {
+        switch self {
+        case .high: return .red
+        case .medium: return .blue
+        case .low: return .yellow
+        case .none: return .primary
+        }
+    }
+}
+
+extension UserPreferences.SortingOptions {
+    var image: String {
+        switch self {
+        case .none: return "x.circle"
+        case .priority: return "flag"
+        case .date: return "calendar"
+        }
+    }
+}
+
 extension Date {
     var YMD: String {
         let dateFormatter = DateFormatter()
@@ -85,26 +106,5 @@ extension Date {
         
         let calendar = Calendar.current
         return calendar.dateComponents([.day], from: from.startOfDay, to: to.startOfDay).day! / 7
-    }
-}
-
-extension Task.Priority {
-    var color: Color {
-        switch self {
-        case .high: return .red
-        case .medium: return .blue
-        case .low: return .yellow
-        case .none: return .primary
-        }
-    }
-}
-
-extension UserPreferences.SortingOptions {
-    var image: String {
-        switch self {
-        case .none: return "x.circle"
-        case .priority: return "flag"
-        case .date: return "calendar"
-        }
     }
 }

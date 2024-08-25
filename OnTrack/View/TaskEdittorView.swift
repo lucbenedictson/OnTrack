@@ -23,71 +23,73 @@ struct TaskEdittorView: View {
     init(selectedDay: Date, initialCategory category: Task.Category?) {
         self._taskInput = State(initialValue: TaskInputData(category: category ?? .productivity, dateComponent: Task.TimeComponent(due: selectedDay)))
         self.taskId = nil
+        UIScrollView.appearance().bounces = false
     }
     
     init(editTask: Task) {
         self._taskInput = State(initialValue: editTask.toTaskInputData())
         self.taskId = editTask.id
+        UIScrollView.appearance().bounces = false
     }
     
     @FocusState private var focused: Bool
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            HStack(alignment: .top){
-                TextField("whats next", text: $taskInput.text, axis: .vertical)
-                    .focused($focused, equals: true)
-                    .onAppear {
-                        focused = true
+                HStack(alignment: .top){
+                    TextField("whats next", text: $taskInput.text, axis: .vertical)
+                        .focused($focused, equals: true)
+                    
+                    
+                    AnimatedCapsuleButton(systemImage: taskId != nil ? "pencil" : "plus") {
+                        if let id = taskId {
+                            store.edit(withId: id, taskData: taskInput)
+                        } else {
+                            store.add(taskData: taskInput)
+                        }
+                        dismiss()
                     }
+                }
+                .padding([.horizontal,.top])
                 
-                
-                AnimatedCapsuleButton(systemImage: taskId != nil ? "pencil" : "plus") {
-                    if let id = taskId {
-                        store.edit(withId: id, taskData: taskInput)
-                    } else {
-                        store.add(taskData: taskInput)
+                ScrollView(.horizontal) {
+                    HStack {
+                        AnimatedCapsuleButton(taskInput.dateComponent.due.formatted(date: .abbreviated, time: taskInput.dateComponent.includeTime ? .shortened : .omitted), systemImage: "calendar") {
+                            showDate = true
+                            focused = false
+                        }
+                        .sheet(isPresented: $showDate) {
+                            focused = true
+                        } content: {
+                            CalendarView(dateSelection: $taskInput.dateComponent)
+                        }
+                        
+                        AnimatedCapsuleButton(systemImage: taskInput.category.image) {
+                            showCategory = true
+                        }
+                        .popover(isPresented: $showCategory) {
+                            categoryPopover
+                                .presentationCompactAdaptation((.popover))
+                        }
+                        
+                        AnimatedCapsuleButton(systemImage: "flag", imageColor: taskInput.priority.color) {
+                            showPriority = true
+                        }
+                        .popover(isPresented: $showPriority) {
+                            priorityPopover
+                                .presentationCompactAdaptation((.popover))
+                        }
                     }
-                    dismiss()
                 }
-            }
-            .padding([.horizontal, .top])
-            
-            HStack {
-                AnimatedCapsuleButton(taskInput.dateComponent.due.formatted(date: .abbreviated, time: taskInput.dateComponent.includeTime ? .shortened : .omitted), systemImage: "calendar") {
-                    showDate = true
-                    focused = false
-                }
-                .lineLimit(1)
-                .sheet(isPresented: $showDate) {
-                    CalendarView(dateSelection: $taskInput.dateComponent) //, isPresented: $showDate)
-                }
-                
-                AnimatedCapsuleButton(systemImage: taskInput.category.image) {
-                    showCategory = true
-                }
-                .lineLimit(1)
-                .popover(isPresented: $showCategory) {
-                    categoryPopover
-                        .presentationCompactAdaptation((.popover))
-                }
-                
-                
-                AnimatedCapsuleButton(systemImage: "flag", imageColor: taskInput.priority.color) {
-                    showPriority = true
-                }
-                .lineLimit(1)
-                .popover(isPresented: $showPriority) {
-                    priorityPopover
-                        .presentationCompactAdaptation((.popover))
-                }
-            }
-            .padding(.horizontal)
-            
-            Spacer()
+                .padding([.horizontal])
         }
-        .font(nil).fontWeight(nil) //apply default font and font weight to all text
+        .font(nil).fontWeight(nil)
+        .onAppear {
+            focused = true
+        }
+        .transition(.move(edge: .bottom))
     }
+        
     
     
     private let popoverPadding = CGFloat(5)
@@ -98,7 +100,6 @@ struct TaskEdittorView: View {
                 AnimatedButton(category.description, systemImage: category.image, imageColor: Color.primary, textColor: Color.primary) {
                     self.taskInput.category = category
                     showCategory = false
-                    focused = false
                 }
                 
                 if Task.Category.allCases.last != category {
@@ -115,7 +116,6 @@ struct TaskEdittorView: View {
                 AnimatedButton(priority.description, systemImage: "flag", imageColor: priority.color, textColor: Color.primary) {
                     self.taskInput.priority = priority
                     showPriority = false
-                    focused = false
                 }
                 
                 if Task.Priority.allCases.last != priority {
@@ -136,4 +136,3 @@ extension Task {
             priority: self.priority)
     }
 }
-

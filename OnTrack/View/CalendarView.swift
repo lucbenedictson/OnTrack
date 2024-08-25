@@ -13,7 +13,7 @@ struct CalendarView: View {
     
     @Environment(\.dismiss) var dismiss
     
-    init(dateSelection: Binding<Task.TimeComponent>) {//, isPresented: Binding<Bool>) {
+    init(dateSelection: Binding<Task.TimeComponent>) {
         self._dateSelected = dateSelection
         self.initialDateInfo = dateSelection.wrappedValue
     }

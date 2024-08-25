@@ -19,11 +19,11 @@ struct TaskListView: View {
     
     var body: some View {
         conditionalContent()
+            .ignoresSafeArea(.keyboard)
     }
     
     @ViewBuilder
     private func conditionalContent() -> some View {
-//        ZStack { // FIXME: - 1) lets text transition apply when swaping the condition content
             if tasksToShow.isEmpty {
                 Text("All done for the day!")
                     .font(.title2)
@@ -36,6 +36,8 @@ struct TaskListView: View {
                 taskList
             }
     }
+    
+    @State var detentHeight: CGFloat = 0
     
     private var taskList: some View {
         List {
@@ -70,11 +72,18 @@ struct TaskListView: View {
                 }
             }
         }
-        .sheet(item: $editTask) { task in
-            TaskEdittorView(editTask: task)
-        }
         .listSectionSpacing(Constants.List.rowSpacing)
         .scrollContentBackground(.hidden)
+        .sheet(item: $editTask) { task in
+            TaskEdittorView(editTask: task)
+                .readHeight()
+                .onPreferenceChange(HeightPreferenceKey.self) { height in
+                    if let height {
+                        self.detentHeight = height
+                    }
+                }
+                .presentationDetents([.height(self.detentHeight)])
+        }
     }
     
     func indexOf(taskWithId id: Task.ID) -> Int? {
