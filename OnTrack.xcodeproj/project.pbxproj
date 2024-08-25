@@ -31,7 +31,7 @@
 
 /* Begin PBXFileReference section */
 		B52707032C6559F7003EDAC2 /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
-		B52707092C69210D003EDAC2 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserPreferences.swift; path = OnTrack/UserPreferences.swift; sourceTree = SOURCE_ROOT; };
+		B52707092C69210D003EDAC2 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserPreferences.swift; path = OnTrack/Model/UserPreferences.swift; sourceTree = SOURCE_ROOT; };
 		B537157A2C754F53009A294F /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		B537157C2C769450009A294F /* HeightPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightPreferenceKey.swift; sourceTree = "<group>"; };
 		B5D1B7FD2C6F994900CF0B32 /* UserPreferencesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferencesStore.swift; sourceTree = "<group>"; };
