@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ListNavView: View {
-    @EnvironmentObject var store: TaskStore
     @State var presentTaskSheet = false
     @State var presentTaskEditorSheet = false
     @ObservedObject var userPreferencesStore: UserPreferencesStore
